@@ -10,7 +10,7 @@ namespace RecipesSite.Model.Model
     {
         public int Id { get; set; }
 
-        public User User { get; set; }
+        public User Username { get; set; }
 
         public string Text { get; set; }
 

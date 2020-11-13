@@ -12,6 +12,8 @@ namespace RecipesSite.Model.Model
 
         public bool IsValid { set; get; }
 
+        public string Title { set; get; }
+
         public ClassificationEnum Classification { get; set; }
 
         public List<Ingredients> IngredientsList { get; set; }
