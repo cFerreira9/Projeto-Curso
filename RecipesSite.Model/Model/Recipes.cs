@@ -14,16 +14,20 @@ namespace RecipesSite.Model.Model
 
         public string Title { set; get; }
 
+        public User Username { set; get; }
+
         public ClassificationEnum Classification { get; set; }
 
         public List<Ingredients> IngredientsList { get; set; }
 
         public string Description { get; set; }
 
-        public string Category { get; set; }
+        public List<Category> Category { get; set; }
 
         public DifficultyEnum Difficulty { get; set; }
 
         public TimeSpan Duration { get; set; }
+
+        public List<Comments> Commentaries { get; set; }
     }
 }

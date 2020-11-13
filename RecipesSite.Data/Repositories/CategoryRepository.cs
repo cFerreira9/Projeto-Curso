@@ -7,24 +7,24 @@ using System.Threading.Tasks;
 
 namespace RecipesSite.Data.Repositories
 {
-    public class RecipesRepository
+    public class CategoryRepository
     {
-        public List<Recipes> GetAll()
+        public List<Category> GetAll()
         {
 
         }
 
-        public Recipes GetById(int id)
+        public Category GetById(int id)
         {
 
         }
 
-        public void Add(Recipes recipe)
+        public void Add(Category category)
         {
 
         }
 
-        public void Update(Recipes recipe)
+        public void Update(Category category)
         {
 
         }

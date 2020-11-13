@@ -10,10 +10,12 @@ namespace RecipesSite.Model.Model
     {
         public int Id { get; set; }
 
+        public Recipes Recipe { get; set; }
+
         public User Username { get; set; }
 
         public string Text { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 }

@@ -6,12 +6,10 @@ using System.Threading.Tasks;
 
 namespace RecipesSite.Model.Model
 {
-    public class Ingredients
+    public class Category
     {
-        public int Id { get; set; }
+        public int CategoryId { get; set; }
 
-        public string IngredientName { get; set; }
-
-        public double Quantity { get; set; }
+        public string Categories { get; set; }
     }
 }

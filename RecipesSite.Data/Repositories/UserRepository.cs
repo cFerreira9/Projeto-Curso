@@ -44,8 +44,6 @@ namespace RecipesSite.Data.Repositories
 
                     temp.Add(user);
                 }
-
-                conn.Close();
             }
 
             return temp;

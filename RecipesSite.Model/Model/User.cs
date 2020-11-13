@@ -21,5 +21,9 @@ namespace RecipesSite.Model.Model
         public string Password { get; set; }
 
         public string Email { get; set; }
+
+        public List<Recipes> OwnedRecipes { get; set; }
+
+        public List<Recipes> FavouriteRecipes { get; set; }
     }
 }

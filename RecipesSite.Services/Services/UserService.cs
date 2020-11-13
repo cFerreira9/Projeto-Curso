@@ -14,7 +14,7 @@ namespace RecipesSite.Services.Services
 
         public UserService()
         {
-           _repo = new UserRepository();
+            _repo = new UserRepository();
         }
 
         public List<User> GetAll()
