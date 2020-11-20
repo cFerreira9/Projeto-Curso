@@ -22,7 +22,7 @@ namespace RecipesSite.Model.Model
 
         public string Description { get; set; }
 
-        public List<Category> Category { get; set; }
+        public List<Category> Categories { get; set; }
 
         public DifficultyEnum Difficulty { get; set; }
 

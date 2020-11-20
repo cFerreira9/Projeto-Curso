@@ -16,11 +16,7 @@ namespace RecipesSite.Model.Model
 
         public bool IsBlocked { get; set; }
 
-        public string Username { get; set; }
-
-        public string Password { get; set; }
-
-        public string Email { get; set; }
+        public Account UserAccount { get; set; }
 
         public List<Recipes> OwnedRecipes { get; set; }
 

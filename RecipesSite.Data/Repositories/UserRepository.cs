@@ -13,11 +13,6 @@ namespace RecipesSite.Data.Repositories
 {
     public class UserRepository
     {
-        private static string _cs = ConfigurationManager.ConnectionStrings["Users"].ConnectionString;
-        private static int _colUserId = 0;
-        private static int _colUserUsername = 1;
-        private static int _colUserPassword = 2;
-        private static int _colUserEmail = 3;
 
         public List<User> GetAll()
         {
@@ -25,102 +20,141 @@ namespace RecipesSite.Data.Repositories
 
             using (SqlConnection conn = new SqlConnection())
             {
-                string query = "SELECT * FROM Users";
+                string query = $"SELECT * FROM Users";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
 
                 conn.Open();
-
                 SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
                     User user = new User();
 
-                    user.Id = dr.GetInt32(_colUserId);
-                    user.Username = dr.GetString(_colUserUsername);
-                    user.Password = dr.GetString(_colUserPassword);
-                    user.Email = dr.GetString(_colUserEmail);
+                    user.IsActive = (bool)dr["IsActive"];
+                    user.IsAdmin = (bool)dr["IsAdmin"];
+                    user.IsBlocked = (bool)dr["IsBlocked"];
 
                     temp.Add(user);
                 }
+                conn.Close();
             }
-
             return temp;
         }
 
         public User GetById(int id)
         {
-            using (SqlConnection conn = new SqlConnection(_cs))
+            using (SqlConnection conn = new SqlConnection())
             {
-                string query = $"SELECT * FROM User WHERE UserId = {id}";
+                string query = $"SELECT * FROM Users WHERE Id = {id}";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
 
                 conn.Open();
-
                 SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
                     User user = new User()
                     {
-                        Id = dr.GetInt32(_colUserId),
-                        Username = dr.GetString(_colUserUsername),
-                        Password = dr.GetString(_colUserPassword),
-                        Email = dr.GetString(_colUserEmail)
+                        Id = (int)dr["Id"],
+                        IsActive = (bool)dr["IsActive"],
+                        IsAdmin = (bool)dr["IsAdmin"],
+                        IsBlocked = (bool)dr["IsBlocked"]
                     };
-
                     return user;
                 }
+                conn.Close();
             }
-
             throw new Exception("Não existe nenhum user com o ID: " + id);
         }
 
         public void Add(User user)
         {
-            using (SqlConnection conn = new SqlConnection(_cs))
+            using (SqlConnection conn = new SqlConnection())
             {
-                string query = $"INSERT INTO Users " +
-                               $"VALUES (@userUsername, @userPassword, @userEmail);" +
-                               $"SELECT cast(Scope_Identity() as int);";
+                string query = $"INSERT INTO Users" +
+                    $"VALUES (@usersIsActive, @usersIsAdmin, @usersIsBlocked);";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
 
-                SqlParameter usernameParam = new SqlParameter();
-                usernameParam.ParameterName = "@userUsername";
-                usernameParam.Value = user.Username;
-                usernameParam.SqlDbType = SqlDbType.NVarChar;
+                SqlParameter isactiveParam = new SqlParameter();
+                isactiveParam.ParameterName = "@usersIsActive";
+                isactiveParam.Value = user.IsActive;            // é um true/false ou assim? que por sua vez são os valores default
+                isactiveParam.SqlDbType = SqlDbType.Bit;
 
-                SqlParameter passwordParam = new SqlParameter();
-                passwordParam.ParameterName = "@userPassword";
-                passwordParam.Value = user.Password;
-                passwordParam.SqlDbType = SqlDbType.NVarChar;
+                SqlParameter isadminParam = new SqlParameter();
+                isadminParam.ParameterName = "@usersIsAdmin";
+                isadminParam.Value = user.IsAdmin;
+                isadminParam.SqlDbType = SqlDbType.Bit;
 
-                SqlParameter emailParam = new SqlParameter();
-                emailParam.ParameterName = "@userEmail";
-                emailParam.Value = user.Email;
-                emailParam.SqlDbType = SqlDbType.NVarChar;
+                SqlParameter isblockedParam = new SqlParameter();
+                isblockedParam.ParameterName = "@usersIsBlocked";
+                isblockedParam.Value = user.IsBlocked;
+                isblockedParam.SqlDbType = SqlDbType.Bit;
 
-                cmd.Parameters.Add(usernameParam);
-                cmd.Parameters.Add(passwordParam);
-                cmd.Parameters.Add(emailParam);
+                cmd.Parameters.Add(isactiveParam);
+                cmd.Parameters.Add(isadminParam);
+                cmd.Parameters.Add(isblockedParam);
 
                 conn.Open();
-                int id = (int)cmd.ExecuteScalar();
-                user.Id = id;
+
+                int affectedrow = cmd.ExecuteNonQuery();
+
+                conn.Close();
+
+                if (affectedrow == 0)
+                {
+                    throw new Exception("Não foi possível criar um user.");
+                }
             }
         }
 
-        public void Update(User User)
+        public void Update(User user)
         {
+            using (SqlConnection conn = new SqlConnection())
+            {
+                string query = $"UPDATE Users" +
+                    $"SET IsActive = @usersIsActive, IsAdmin = @usersIsAdmin, IsBlocked = @usersIsBlocked";
 
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                cmd.Parameters.AddWithValue("@usersIsActive", user.IsActive);
+                cmd.Parameters.AddWithValue("@usersIsAdmin", user.IsAdmin);
+                cmd.Parameters.AddWithValue("@usersIsBlocked", user.IsBlocked);
+
+                conn.Open();
+
+                int affectedrow = cmd.ExecuteNonQuery();
+
+                conn.Close();
+
+                if (affectedrow == 0)
+                {
+                    throw new Exception("Não foi possível atualizar os dados do user");
+                }
+            }
         }
 
         public void Remove(int id)
         {
+            using (SqlConnection conn = new SqlConnection())
+            {
+                string query = $"DELETE FROM Users WHERE Id = {id}";
 
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                conn.Open();
+
+                int affectedrow = cmd.ExecuteNonQuery();
+
+                conn.Close();
+
+                if (affectedrow == 0)
+                {
+                    throw new Exception("Não existe nenhum user com este ID:" + id);
+                }
+            }
         }
     }
 }

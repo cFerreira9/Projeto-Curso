@@ -46,16 +46,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\AccountService.cs" />
     <Compile Include="Services\CategoryService.cs" />
     <Compile Include="Services\CommentsService.cs" />
     <Compile Include="Services\IngredientsService.cs" />
     <Compile Include="Services\RecipesService.cs" />
     <Compile Include="Services\UserService.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RecipesSite.Data\RecipesSite.Data.csproj">

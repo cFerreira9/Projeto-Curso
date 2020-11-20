@@ -8,8 +8,8 @@ namespace RecipesSite.Model.Model
 {
     public class Category
     {
-        public int CategoryId { get; set; }
+        public int Id { get; set; }
 
-        public string Categories { get; set; }
+        public string RecipeCategory { get; set; }
     }
 }
