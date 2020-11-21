@@ -10,6 +10,7 @@ namespace RecipesSite.ConsoleApp
     {
         static void Main(string[] args)
         {
+
         }
     }
 }

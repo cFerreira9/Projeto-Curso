@@ -10,11 +10,16 @@ using System.Windows.Forms;
 
 namespace RecipesSite.WFApp
 {
-    public partial class Form1 : Form
+    public partial class FrmRecipes : Form
     {
-        public Form1()
+        public FrmRecipes()
         {
             InitializeComponent();
+        }
+
+        private void FrmRecipes_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

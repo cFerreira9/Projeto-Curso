@@ -14,7 +14,7 @@ namespace RecipesSite.Model.Model
 
         public string Title { set; get; }
 
-        public User Username { set; get; }
+        public Account Username { set; get; }
 
         public ClassificationEnum Classification { get; set; }
 

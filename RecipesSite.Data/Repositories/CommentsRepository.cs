@@ -34,7 +34,6 @@ namespace RecipesSite.Data.Repositories
 
                     temp.Add(comments);
                 }
-                conn.Close();
             }
             return temp;
         }
@@ -60,9 +59,8 @@ namespace RecipesSite.Data.Repositories
                     };
                     return comments;
                 }
-                conn.Close();
             }
-            throw new Exception("Não existe nenhum comentário com o ID:" + id);
+            throw new Exception("Não existe nenhum comentário com o ID: " + id);
         }
 
         public void Add(Comments comments)
@@ -91,11 +89,9 @@ namespace RecipesSite.Data.Repositories
 
                 int affectedrow = cmd.ExecuteNonQuery();
 
-                conn.Close();
-
                 if (affectedrow == 0)
                 {
-                    throw new Exception("Não foi possível criar um comentário.");
+                    throw new Exception("Não foi possível criar o comentário.");
                 }
             }
         }
@@ -115,11 +111,9 @@ namespace RecipesSite.Data.Repositories
 
                 int affectedrow = cmd.ExecuteNonQuery();
 
-                conn.Close();
-
                 if (affectedrow == 0)
                 {
-                    throw new Exception("Não foi possível atualizar o comentário");
+                    throw new Exception("Não foi possível atualizar o comentário.");
                 }
             }
         }
@@ -136,11 +130,9 @@ namespace RecipesSite.Data.Repositories
 
                 int affectedrow = cmd.ExecuteNonQuery();
 
-                conn.Close();
-
                 if (affectedrow == 0)
                 {
-                    throw new Exception("Não existe nenhum comentário com o ID:" + id);
+                    throw new Exception("Não existe nenhum comentário com o ID: " + id);
                 }
             }
         }

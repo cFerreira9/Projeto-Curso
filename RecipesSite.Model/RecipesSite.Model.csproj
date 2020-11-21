@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\Account.cs" />
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Utility\ClassificationEnum.cs" />
     <Compile Include="Model\Comments.cs" />

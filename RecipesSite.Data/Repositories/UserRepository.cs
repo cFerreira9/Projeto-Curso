@@ -11,33 +11,34 @@ using System.Threading.Tasks;
 
 namespace RecipesSite.Data.Repositories
 {
-    public class UserRepository
+    public class UserRepository 
     {
-
         public List<User> GetAll()
         {
             List<User> temp = new List<User>();
 
             using (SqlConnection conn = new SqlConnection())
             {
-                string query = $"SELECT * FROM Users";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spGetAll";
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 conn.Open();
+
                 SqlDataReader dr = cmd.ExecuteReader();
 
                 while (dr.Read())
                 {
                     User user = new User();
 
+                    user.Username = (string)dr["Username"];
+                    user.Account.Email = (string)dr["Email"];
                     user.IsActive = (bool)dr["IsActive"];
-                    user.IsAdmin = (bool)dr["IsAdmin"];
                     user.IsBlocked = (bool)dr["IsBlocked"];
 
                     temp.Add(user);
                 }
-                conn.Close();
             }
             return temp;
         }
@@ -46,9 +47,10 @@ namespace RecipesSite.Data.Repositories
         {
             using (SqlConnection conn = new SqlConnection())
             {
-                string query = $"SELECT * FROM Users WHERE Id = {id}";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "spGetUserByID";
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 conn.Open();
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -58,13 +60,12 @@ namespace RecipesSite.Data.Repositories
                     User user = new User()
                     {
                         Id = (int)dr["Id"],
+                        Username = (string)dr["Username"],
                         IsActive = (bool)dr["IsActive"],
-                        IsAdmin = (bool)dr["IsAdmin"],
                         IsBlocked = (bool)dr["IsBlocked"]
                     };
                     return user;
                 }
-                conn.Close();
             }
             throw new Exception("Não existe nenhum user com o ID: " + id);
         }
@@ -73,35 +74,29 @@ namespace RecipesSite.Data.Repositories
         {
             using (SqlConnection conn = new SqlConnection())
             {
-                string query = $"INSERT INTO Users" +
-                    $"VALUES (@usersIsActive, @usersIsAdmin, @usersIsBlocked);";
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = conn,
+                    CommandText = "spAddUser",
+                    CommandType = CommandType.StoredProcedure
+                };
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Username", user.Username);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Parameters.AddWithValue("@Email", user.Email);
 
-                SqlParameter isactiveParam = new SqlParameter();
-                isactiveParam.ParameterName = "@usersIsActive";
-                isactiveParam.Value = user.IsActive;            // é um true/false ou assim? que por sua vez são os valores default
-                isactiveParam.SqlDbType = SqlDbType.Bit;
+                SqlParameter outParam = new SqlParameter
+                {
+                    ParameterName = "@usersIsBlocked",
+                    SqlDbType = SqlDbType.Int,
+                    Direction = ParameterDirection.Output
+                };
 
-                SqlParameter isadminParam = new SqlParameter();
-                isadminParam.ParameterName = "@usersIsAdmin";
-                isadminParam.Value = user.IsAdmin;
-                isadminParam.SqlDbType = SqlDbType.Bit;
-
-                SqlParameter isblockedParam = new SqlParameter();
-                isblockedParam.ParameterName = "@usersIsBlocked";
-                isblockedParam.Value = user.IsBlocked;
-                isblockedParam.SqlDbType = SqlDbType.Bit;
-
-                cmd.Parameters.Add(isactiveParam);
-                cmd.Parameters.Add(isadminParam);
-                cmd.Parameters.Add(isblockedParam);
+                cmd.Parameters.Add(outParam);
 
                 conn.Open();
 
                 int affectedrow = cmd.ExecuteNonQuery();
-
-                conn.Close();
 
                 if (affectedrow == 0)
                 {
@@ -115,23 +110,20 @@ namespace RecipesSite.Data.Repositories
             using (SqlConnection conn = new SqlConnection())
             {
                 string query = $"UPDATE Users" +
-                    $"SET IsActive = @usersIsActive, IsAdmin = @usersIsAdmin, IsBlocked = @usersIsBlocked";
+                    $"SET IsActive = @usersIsActive, IsBlocked = @usersIsBlocked";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
 
                 cmd.Parameters.AddWithValue("@usersIsActive", user.IsActive);
-                cmd.Parameters.AddWithValue("@usersIsAdmin", user.IsAdmin);
                 cmd.Parameters.AddWithValue("@usersIsBlocked", user.IsBlocked);
 
                 conn.Open();
 
                 int affectedrow = cmd.ExecuteNonQuery();
 
-                conn.Close();
-
                 if (affectedrow == 0)
                 {
-                    throw new Exception("Não foi possível atualizar os dados do user");
+                    throw new Exception("Não foi possível atualizar os dados do user.");
                 }
             }
         }
@@ -148,11 +140,9 @@ namespace RecipesSite.Data.Repositories
 
                 int affectedrow = cmd.ExecuteNonQuery();
 
-                conn.Close();
-
                 if (affectedrow == 0)
                 {
-                    throw new Exception("Não existe nenhum user com este ID:" + id);
+                    throw new Exception("Não existe nenhum user com este ID: " + id);
                 }
             }
         }
