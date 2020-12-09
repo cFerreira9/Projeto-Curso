@@ -10,7 +10,9 @@ namespace RecipesSite.Model.Model
     {
         public int Id { get; set; }
 
-        public string IngredientName { get; set; }
+        public string Name { get; set; }
+
+        public bool IsValid { get; set; }
 
         public string Quantity { get; set; }
     }

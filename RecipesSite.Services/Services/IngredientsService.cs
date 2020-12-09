@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RecipesSite.Services.Services
 {
-    class IngredientsService
+    public class IngredientsService
     {
         private IngredientsRepository _repo;
 
@@ -19,27 +19,42 @@ namespace RecipesSite.Services.Services
 
         public List<Ingredients> GetAll()
         {
-            return null;
+            return _repo.GetAll();
         }
 
-        public Ingredients GetById(int id)
+        public List<Ingredients> GetAllPendingIngredients()
         {
-            return null;
+            return _repo.GetAllPendingIngredients();
         }
 
-        public void Add(Ingredients ingredients)
+        public List<Ingredients> GetIngredientsByRecipesID(int id)
         {
-
+            return _repo.GetIngredientsByRecipesID(id);
         }
 
-        public void Update(Ingredients ingredients)
+        public void AddByAdmin(Ingredients ingredient)
         {
+            _repo.AddByAdmin(ingredient);
+        }
 
+        public void AddByClient(Ingredients ingredient, int id)
+        {
+            _repo.AddByClient(ingredient, id);
+        }
+
+        public void UpdateByAdmin(Ingredients ingredient)
+        {
+            _repo.UpdateByAdmin(ingredient);
+        }
+
+        public void UpadteByClient(Ingredients ingredients)
+        {
+            _repo.UpdateByClient(ingredients);
         }
 
         public void Remove(int id)
         {
-
+            _repo.Remove(id);
         }
     }
 }

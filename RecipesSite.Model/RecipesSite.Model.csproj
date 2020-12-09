@@ -49,6 +49,7 @@
     <Compile Include="Model\Category.cs" />
     <Compile Include="Model\Utility\ClassificationEnum.cs" />
     <Compile Include="Model\Comments.cs" />
+    <Compile Include="Model\Utility\Convert Lists.cs" />
     <Compile Include="Model\Utility\DifficultyEnum.cs" />
     <Compile Include="Model\Ingredients.cs" />
     <Compile Include="Model\Recipes.cs" />

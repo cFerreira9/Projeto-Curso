@@ -24,37 +24,49 @@ namespace RecipesSite.Services.Services
 
         public User GetById(int id)
         {
-            User user = _repo.GetById(id);
-            user.Password = "";
-            return user;
+            return _repo.GetById(id);
+        }
+
+        public User GetUserByRecipeID(int id)
+        {
+            return _repo.GetUserByRecipeID(id);
         }
 
         public void Add(User user)
         {
-            string passwordHashed = passwordHash(user.Password);
-            user.Password = passwordHashed;
-
             _repo.Add(user);
         }
 
-        public void Update(User user)
+        public void UpdateByAdmin(User user)
         {
-            string passwordHashed = passwordHash(user.Password);
-            user.Password = passwordHashed;
+            _repo.UpdateByAdmin(user);
+        }
 
-            _repo.Update(user);
+        public void UpdateByClient(User user)
+        {
+            _repo.UpdateByClient(user);
         }
 
         public void Remove(int id)
         {
-            User user = _repo.GetById(id);
-            user.IsActive = false;
-            _repo.Update(user);
+            _repo.Remove(id);
         }
 
-        private string passwordHash(string password)
+        public List<User> BlockedUsers()
         {
-            return password;
+            return _repo.BlockedUsers();
+        }
+
+        public void BlockUnblockUser(int id, bool block)
+        {
+            try
+            {
+                _repo.BlockUnBlockUser(id, block);
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Erro ao bloquear utilizador.");
+            }
         }
     }
 }

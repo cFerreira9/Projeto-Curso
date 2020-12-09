@@ -1,4 +1,5 @@
-﻿using RecipesSite.Model.Model;
+﻿using RecipesSite.Data.Repositories;
+using RecipesSite.Model.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace RecipesSite.Services.Services
 {
-    class CommentsService
+    public class CommentsService
     {
         private CommentsRepository _repo;
 
@@ -16,29 +17,25 @@ namespace RecipesSite.Services.Services
             _repo = new CommentsRepository();
         }
 
-        public List<Comments> GetAll()
+        public Comments GetCommentByUserID(int id)
         {
-            return null;
+            Comments comment = _repo.GetCommentByUserID(id);
+            return comment;
         }
 
-        public Comments GetById(int id)
+        public void Add(Comments comment)
         {
-            return null;
+            _repo.Add(comment);
         }
 
-        public void Add(Comments comments)
+        public void Update(Comments comment)
         {
-
-        }
-
-        public void Update(Comments comments)
-        {
-
+            _repo.Update(comment);
         }
 
         public void Remove(int id)
         {
-
+            _repo.Remove(id);
         }
     }
 }

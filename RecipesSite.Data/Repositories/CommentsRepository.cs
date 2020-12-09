@@ -12,39 +12,16 @@ namespace RecipesSite.Data.Repositories
 {
     public class CommentsRepository
     {
-        public List<Comments> GetAll()
+        public Comments GetCommentByUserID(int id)
         {
-            List<Comments> temp = new List<Comments>();
-
             using (SqlConnection conn = new SqlConnection())
             {
-                string query = $"SELECT * FROM Comments";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-
-                conn.Open();
-                SqlDataReader dr = cmd.ExecuteReader();
-
-                while (dr.Read())
+                SqlCommand cmd = new SqlCommand
                 {
-                    Comments comments = new Comments();
-
-                    comments.Text = (string)dr["Text"];
-                    comments.CreationDate = (DateTime)dr["Date"];
-
-                    temp.Add(comments);
-                }
-            }
-            return temp;
-        }
-
-        public Comments GetById(int id)
-        {
-            using (SqlConnection conn = new SqlConnection())
-            {
-                string query = $"SELECT * FROM Comments WHERE Id = {id}";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
+                    Connection = conn,
+                    CommandText = "spUserComments",
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 conn.Open();
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -53,37 +30,41 @@ namespace RecipesSite.Data.Repositories
                 {
                     Comments comments = new Comments()
                     {
-                        Id = (int)dr["Id"],
+                        Id = (int)dr["ID"],
+                        RecipeId = (int)dr["RecipeId"],
+                        Username = (string)dr["Username"],
                         Text = (string)dr["Text"],
-                        CreationDate = (DateTime)dr["Date"],
+                        CreationDate = (DateTime)dr["Date"]
                     };
                     return comments;
                 }
             }
-            throw new Exception("Não existe nenhum comentário com o ID: " + id);
+            throw new Exception("Não existe nenhum comentário com o user ID: " + id);
         }
 
         public void Add(Comments comments)
         {
             using (SqlConnection conn = new SqlConnection())
             {
-                string query = $"INSERT INTO Comments" +
-                    $"VALUES (@commentsText, @commentsDate)";
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = conn,
+                    CommandText = "spAddComment",
+                    CommandType = CommandType.StoredProcedure
+                };
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("UserId", comments.UserId);
+                cmd.Parameters.AddWithValue("RecipeId", comments.RecipeId);
+                cmd.Parameters.AddWithValue("Text", comments.Text);
 
-                SqlParameter textParam = new SqlParameter();
-                textParam.ParameterName = "@commentsText";
-                textParam.Value = comments.Text;
-                textParam.SqlDbType = SqlDbType.Text;
+                SqlParameter outParam = new SqlParameter
+                {
+                    ParameterName = "@Id",
+                    SqlDbType = SqlDbType.Int,
+                    Direction = ParameterDirection.Output
+                };
 
-                SqlParameter dateParam = new SqlParameter();
-                dateParam.ParameterName = "@commentsDate";
-                dateParam.Value = comments.CreationDate;
-                dateParam.SqlDbType = SqlDbType.DateTime;
-
-                cmd.Parameters.Add(textParam);
-                cmd.Parameters.Add(dateParam);
+                cmd.Parameters.Add(outParam);
 
                 conn.Open();
 
@@ -91,7 +72,7 @@ namespace RecipesSite.Data.Repositories
 
                 if (affectedrow == 0)
                 {
-                    throw new Exception("Não foi possível criar o comentário.");
+                    throw new Exception("Não foi possível criar um comentário.");
                 }
             }
         }
@@ -100,12 +81,15 @@ namespace RecipesSite.Data.Repositories
         {
             using (SqlConnection conn = new SqlConnection())
             {
-                string query = $"UPDATE Comments" +
-                    $"SET Text = @commentsText";
+                SqlCommand cmd = new SqlCommand()
+                {
+                    Connection = conn,
+                    CommandText = "spUpdateComment",
+                    CommandType = CommandType.StoredProcedure
+                };
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-
-                cmd.Parameters.AddWithValue("@commentsText", comments.Text);
+                cmd.Parameters.AddWithValue("@Id", comments.Id);
+                cmd.Parameters.AddWithValue("@Text", comments.Text);
 
                 conn.Open();
 
@@ -122,9 +106,12 @@ namespace RecipesSite.Data.Repositories
         {
             using (SqlConnection conn = new SqlConnection())
             {
-                string query = $"DELETE FROM Comments WHERE Id = {id}";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand()
+                {
+                    Connection = conn,
+                    CommandText = "spDeleteComment",
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 conn.Open();
 
@@ -132,7 +119,7 @@ namespace RecipesSite.Data.Repositories
 
                 if (affectedrow == 0)
                 {
-                    throw new Exception("Não existe nenhum comentário com o ID: " + id);
+                    throw new Exception("Não existe nenhum comentário com este ID: " + id);
                 }
             }
         }

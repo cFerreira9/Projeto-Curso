@@ -11,18 +11,20 @@ using System.Threading.Tasks;
 
 namespace RecipesSite.Data.Repositories
 {
-    public class UserRepository 
+    public class UserRepository
     {
         public List<User> GetAll()
         {
             List<User> temp = new List<User>();
 
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = "spGetAll";
-                cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = conn,
+                    CommandText = "spGetAll",
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 conn.Open();
 
@@ -30,13 +32,14 @@ namespace RecipesSite.Data.Repositories
 
                 while (dr.Read())
                 {
-                    User user = new User();
-
-                    user.Username = (string)dr["Username"];
-                    user.Account.Email = (string)dr["Email"];
-                    user.IsActive = (bool)dr["IsActive"];
-                    user.IsBlocked = (bool)dr["IsBlocked"];
-
+                    User user = new User()
+                    {
+                        Id = (int)dr["Id"],
+                        Username = (string)dr["Username"],
+                        Email = (string)dr["Email"],
+                        IsActive = (bool)dr["IsActive"],
+                        IsBlocked = (bool)dr["IsBlocked"]
+                    };
                     temp.Add(user);
                 }
             }
@@ -45,12 +48,14 @@ namespace RecipesSite.Data.Repositories
 
         public User GetById(int id)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
-                SqlCommand cmd = new SqlCommand();
-                cmd.Connection = conn;
-                cmd.CommandText = "spGetUserByID";
-                cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = conn,
+                    CommandText = "spGetUserByID",
+                    CommandType = CommandType.StoredProcedure
+                };
 
                 conn.Open();
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -61,6 +66,7 @@ namespace RecipesSite.Data.Repositories
                     {
                         Id = (int)dr["Id"],
                         Username = (string)dr["Username"],
+                        Email = (string)dr["Email"],
                         IsActive = (bool)dr["IsActive"],
                         IsBlocked = (bool)dr["IsBlocked"]
                     };
@@ -70,9 +76,38 @@ namespace RecipesSite.Data.Repositories
             throw new Exception("Não existe nenhum user com o ID: " + id);
         }
 
+        public User GetUserByRecipeID(int id)
+        {
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = conn,
+                    CommandText = "spGetRecipeUser",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                cmd.Parameters.AddWithValue("Id", id);
+
+                conn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    User user = new User()
+                    {
+                        Id = (int)dr["Id"],
+                        Username = (string)dr["Username"]
+                    };
+                    return user;
+                }
+            }
+            throw new Exception("Não existe nenhuma receita com o ID: " + id);
+        }
+
         public void Add(User user)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
                 SqlCommand cmd = new SqlCommand
                 {
@@ -87,7 +122,7 @@ namespace RecipesSite.Data.Repositories
 
                 SqlParameter outParam = new SqlParameter
                 {
-                    ParameterName = "@usersIsBlocked",
+                    ParameterName = "@Id",
                     SqlDbType = SqlDbType.Int,
                     Direction = ParameterDirection.Output
                 };
@@ -105,17 +140,22 @@ namespace RecipesSite.Data.Repositories
             }
         }
 
-        public void Update(User user)
+        public void UpdateByAdmin(User user)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
-                string query = $"UPDATE Users" +
-                    $"SET IsActive = @usersIsActive, IsBlocked = @usersIsBlocked";
+                SqlCommand cmd = new SqlCommand()
+                {
+                    Connection = conn,
+                    CommandText = "spUpdateUser",
+                    CommandType = CommandType.StoredProcedure
+                };
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-
-                cmd.Parameters.AddWithValue("@usersIsActive", user.IsActive);
-                cmd.Parameters.AddWithValue("@usersIsBlocked", user.IsBlocked);
+                cmd.Parameters.AddWithValue("@Username", user.Username);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Parameters.AddWithValue("@Email", user.Email);
+                cmd.Parameters.AddWithValue("@IsActive", user.IsActive);
+                cmd.Parameters.AddWithValue("@IsBlocked", user.IsBlocked);
 
                 conn.Open();
 
@@ -128,13 +168,44 @@ namespace RecipesSite.Data.Repositories
             }
         }
 
+        public void UpdateByClient(User user)
+        {
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
+            {
+                SqlCommand cmd = new SqlCommand()
+                {
+                    Connection = conn,
+                    CommandText = "spUpdateUserClient",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                cmd.Parameters.AddWithValue("@Username", user.Username);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Parameters.AddWithValue("@Email", user.Email);
+
+                conn.Open();
+
+                int affectedrow = cmd.ExecuteNonQuery();
+
+                if (affectedrow == 0)
+                {
+                    throw new Exception("Não foi possível atualizar os seus dados.");
+                }
+            }
+        }
+
         public void Remove(int id)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
-                string query = $"DELETE FROM Users WHERE Id = {id}";
+                SqlCommand cmd = new SqlCommand()
+                {
+                    Connection = conn,
+                    CommandText = "spDeleteUser",
+                    CommandType = CommandType.StoredProcedure
+                };
 
-                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("ID", id);
 
                 conn.Open();
 
@@ -143,6 +214,65 @@ namespace RecipesSite.Data.Repositories
                 if (affectedrow == 0)
                 {
                     throw new Exception("Não existe nenhum user com este ID: " + id);
+                }
+            }
+        }
+
+        public List<User> BlockedUsers()
+        {
+            List<User> temp = new List<User>();
+
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = conn,
+                    CommandText = "spBlockedUsers",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                conn.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    User user = new User
+                    {
+                        Id = (int)dr["Id"],
+                        Username = (string)dr["Username"],
+                        Email = (string)dr["Email"],
+                        IsActive = (bool)dr["IsActive"],
+                        IsBlocked = (bool)dr["IsBlocked"]
+                    };
+
+                    temp.Add(user);
+                }
+            }
+            return temp;
+        }
+
+        public void BlockUnBlockUser(int id, bool block)
+        {
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
+            {
+                SqlCommand cmd = new SqlCommand()
+                {
+                    Connection = conn,
+                    CommandText = "spBlockUnblockUser",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                cmd.Parameters.AddWithValue("@Id", id);
+                cmd.Parameters.AddWithValue("@IsBlocked", block);
+
+                conn.Open();
+
+                int affectedrow = cmd.ExecuteNonQuery();
+
+                if (affectedrow == 0)
+                {
+                    throw new Exception("Não foi possível atualizar os dados do user.");
                 }
             }
         }

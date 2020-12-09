@@ -12,97 +12,133 @@ namespace RecipesSite.WFApp
 {
     public partial class FrmMain : Form
     {
-        private bool closeSentinel = false;
+        private FrmUsers users;
+        private FrmRecipesList recipesList;
+        private FrmManageIngredients manageIngredients;
+        private FrmAddIngredients addIngredients;
+
         public FrmMain()
         {
             InitializeComponent();
         }
-        FrmRecipes R;
-        FrmAddIngredients I;
-        FrmManageIngredients Mi;
-        FrmManageComments Mc;
-        FrmUsers U;
 
-        #region Consultar
+        #region Buttons
 
         private void gerirReceitasToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<FrmRecipes>().Count() == 0)
-                R = new FrmRecipes();
-            R.MdiParent = this;
-            R.WindowState = FormWindowState.Maximized;
-            R.Show();
-            R.BringToFront();
+            if (recipesList == null)
+            {
+                recipesList = new FrmRecipesList();
+                recipesList.MdiParent = this;
+                recipesList.Dock = DockStyle.Fill;
+                recipesList.FormClosed += RecipesList_FormClosed;
+                recipesList.Show();
+            }
+            else
+            {
+                recipesList.Activate();
+            }
+        }
+
+        private void RecipesList_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            recipesList = null;
         }
 
         private void adicionarIngredienteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<FrmAddIngredients>().Count() == 0)
-                I = new FrmAddIngredients();
-            I.MdiParent = this;
-            I.WindowState = FormWindowState.Maximized;
-            I.Show();
-            I.BringToFront();
+            if (addIngredients == null)
+            {
+                addIngredients = new FrmAddIngredients(true);
+                addIngredients.MdiParent = this;
+                addIngredients.FormClosed += AddIngredients_FormClosed;
+                addIngredients.Show();
+            }
+            else
+            {
+                addIngredients.Activate();
+            }
+        }
+
+        private void AddIngredients_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            addIngredients = null;
         }
 
         private void gerirIngredientesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<FrmManageIngredients>().Count() == 0)
-                Mi = new FrmManageIngredients();
-            Mi.MdiParent = this;
-            Mi.WindowState = FormWindowState.Maximized;
-            Mi.Show();
-            Mi.BringToFront();
+            if (manageIngredients == null)
+            {
+                manageIngredients = new FrmManageIngredients(true);
+                manageIngredients.MdiParent = this;
+                manageIngredients.FormClosed += ManageIngredients_FormClosed;
+                manageIngredients.Show();
+            }
+            else
+            {
+                manageIngredients.Activate();
+            }
         }
-        private void gerirComentáriosToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void ManageIngredients_FormClosed(object sender, FormClosedEventArgs e)
         {
-            if (Application.OpenForms.OfType<FrmManageComments>().Count() == 0)
-                Mc = new FrmManageComments();
-            Mc.MdiParent = this;
-            Mc.WindowState = FormWindowState.Maximized;
-            Mc.Show();
-            Mc.BringToFront();
+            manageIngredients = null;
         }
 
         private void gerirUtilizadoresToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (Application.OpenForms.OfType<FrmUsers>().Count() == 0)
-                U = new FrmUsers();
-            U.MdiParent = this;
-            U.WindowState = FormWindowState.Maximized;
-            U.Show();
-            U.BringToFront();
+            if (users == null)
+            {
+                users = new FrmUsers();
+                users.MdiParent = this;
+                users.Dock = DockStyle.Fill;
+                users.FormClosed += Users_FormClosed;
+                users.Show();
+            }
+            else
+            {
+                users.Activate();
+            }
+        }
+
+        private void Users_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            users = null;
         }
 
         private void sairToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (ExitMessage())
             {
-                closeSentinel = true;
-                Application.Exit();
+                Application.ExitThread();
             }
         }
-        protected override void OnFormClosing(FormClosingEventArgs e)
-        {
-            base.OnFormClosing(e);
 
-            if (!closeSentinel)
+        #endregion
+
+        #region Utility
+
+        private void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (ExitMessage())
             {
-                if (ExitMessage())
-                {
-                    Dispose(true);
-                    Application.Exit();
-                }
+                Application.ExitThread();
+            }
+            else
+            {
                 e.Cancel = true;
             }
         }
+
         private bool ExitMessage()
         {
-            DialogResult res = MessageBox.Show("Tem a certeza que pretende sair?", "Atenção!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-            if (res == DialogResult.Yes)
+            DialogResult dialog = MessageBox.Show("Tem a certeza que pretende sair?", "Atenção!", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            if (dialog == DialogResult.Yes)
                 return true;
             return false;
         }
+
         #endregion
+
     }
 }

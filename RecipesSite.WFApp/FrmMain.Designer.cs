@@ -28,24 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.utilizadoresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gerirUtilizadoresToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.receitasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gerirReceitasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.adicionarIngredienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gerirIngredientesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.gerirComentáriosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.adicionarIngredienteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sairToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.label1 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // contextMenuStrip1
-            // 
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(61, 4);
             // 
             // menuStrip1
             // 
@@ -55,7 +48,8 @@
             this.sairToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1083, 24);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 2, 0, 2);
+            this.menuStrip1.Size = new System.Drawing.Size(1546, 26);
             this.menuStrip1.TabIndex = 1;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -63,14 +57,15 @@
             // 
             this.utilizadoresToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gerirUtilizadoresToolStripMenuItem});
+            this.utilizadoresToolStripMenuItem.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.utilizadoresToolStripMenuItem.Name = "utilizadoresToolStripMenuItem";
-            this.utilizadoresToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
+            this.utilizadoresToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.utilizadoresToolStripMenuItem.Text = "Utilizadores";
             // 
             // gerirUtilizadoresToolStripMenuItem
             // 
             this.gerirUtilizadoresToolStripMenuItem.Name = "gerirUtilizadoresToolStripMenuItem";
-            this.gerirUtilizadoresToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gerirUtilizadoresToolStripMenuItem.Size = new System.Drawing.Size(197, 22);
             this.gerirUtilizadoresToolStripMenuItem.Text = "Gerir Utilizadores";
             this.gerirUtilizadoresToolStripMenuItem.Click += new System.EventHandler(this.gerirUtilizadoresToolStripMenuItem_Click);
             // 
@@ -78,59 +73,72 @@
             // 
             this.receitasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gerirReceitasToolStripMenuItem,
-            this.adicionarIngredienteToolStripMenuItem,
             this.gerirIngredientesToolStripMenuItem,
-            this.gerirComentáriosToolStripMenuItem});
+            this.adicionarIngredienteToolStripMenuItem});
+            this.receitasToolStripMenuItem.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.receitasToolStripMenuItem.Name = "receitasToolStripMenuItem";
-            this.receitasToolStripMenuItem.Size = new System.Drawing.Size(62, 20);
+            this.receitasToolStripMenuItem.Size = new System.Drawing.Size(82, 22);
             this.receitasToolStripMenuItem.Text = "Receitas";
             // 
             // gerirReceitasToolStripMenuItem
             // 
             this.gerirReceitasToolStripMenuItem.Name = "gerirReceitasToolStripMenuItem";
-            this.gerirReceitasToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.gerirReceitasToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.gerirReceitasToolStripMenuItem.Text = "Gerir Receitas";
             this.gerirReceitasToolStripMenuItem.Click += new System.EventHandler(this.gerirReceitasToolStripMenuItem_Click);
-            // 
-            // adicionarIngredienteToolStripMenuItem
-            // 
-            this.adicionarIngredienteToolStripMenuItem.Name = "adicionarIngredienteToolStripMenuItem";
-            this.adicionarIngredienteToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.adicionarIngredienteToolStripMenuItem.Text = "Adicionar Ingrediente";
-            this.adicionarIngredienteToolStripMenuItem.Click += new System.EventHandler(this.adicionarIngredienteToolStripMenuItem_Click);
             // 
             // gerirIngredientesToolStripMenuItem
             // 
             this.gerirIngredientesToolStripMenuItem.Name = "gerirIngredientesToolStripMenuItem";
-            this.gerirIngredientesToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
+            this.gerirIngredientesToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
             this.gerirIngredientesToolStripMenuItem.Text = "Gerir Ingredientes";
             this.gerirIngredientesToolStripMenuItem.Click += new System.EventHandler(this.gerirIngredientesToolStripMenuItem_Click);
             // 
-            // gerirComentáriosToolStripMenuItem
+            // adicionarIngredienteToolStripMenuItem
             // 
-            this.gerirComentáriosToolStripMenuItem.Name = "gerirComentáriosToolStripMenuItem";
-            this.gerirComentáriosToolStripMenuItem.Size = new System.Drawing.Size(188, 22);
-            this.gerirComentáriosToolStripMenuItem.Text = "Gerir Comentários";
-            this.gerirComentáriosToolStripMenuItem.Click += new System.EventHandler(this.gerirComentáriosToolStripMenuItem_Click);
+            this.adicionarIngredienteToolStripMenuItem.Name = "adicionarIngredienteToolStripMenuItem";
+            this.adicionarIngredienteToolStripMenuItem.Size = new System.Drawing.Size(224, 22);
+            this.adicionarIngredienteToolStripMenuItem.Text = "Adicionar Ingrediente";
+            this.adicionarIngredienteToolStripMenuItem.Click += new System.EventHandler(this.adicionarIngredienteToolStripMenuItem_Click);
             // 
             // sairToolStripMenuItem
             // 
+            this.sairToolStripMenuItem.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sairToolStripMenuItem.Name = "sairToolStripMenuItem";
-            this.sairToolStripMenuItem.Size = new System.Drawing.Size(38, 20);
+            this.sairToolStripMenuItem.Size = new System.Drawing.Size(49, 22);
             this.sairToolStripMenuItem.Text = "Sair";
             this.sairToolStripMenuItem.Click += new System.EventHandler(this.sairToolStripMenuItem_Click);
             // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Font = new System.Drawing.Font("Arial", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(0, 26);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(1546, 60);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "------- Bem Vindo -------";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // FrmMain
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1083, 817);
+            this.ClientSize = new System.Drawing.Size(1546, 629);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.menuStrip1);
+            this.Font = new System.Drawing.Font("Arial", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IsMdiContainer = true;
             this.MainMenuStrip = this.menuStrip1;
+            this.Margin = new System.Windows.Forms.Padding(4);
+            this.MinimizeBox = false;
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Main";
+            this.Text = "Principal";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -139,17 +147,15 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem utilizadoresToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gerirUtilizadoresToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sairToolStripMenuItem;
+        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem receitasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gerirReceitasToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem adicionarIngredienteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem gerirIngredientesToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem sairToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem gerirComentáriosToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem adicionarIngredienteToolStripMenuItem;
     }
 }
 

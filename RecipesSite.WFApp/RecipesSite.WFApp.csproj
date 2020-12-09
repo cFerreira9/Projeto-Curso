@@ -36,6 +36,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.DirectoryServices" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -59,17 +60,17 @@
     <Compile Include="FrmMain.Designer.cs">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </Compile>
-    <Compile Include="FrmManageComments.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FrmManageComments.Designer.cs">
-      <DependentUpon>FrmManageComments.cs</DependentUpon>
-    </Compile>
     <Compile Include="FrmManageIngredients.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FrmManageIngredients.Designer.cs">
       <DependentUpon>FrmManageIngredients.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FrmRecipes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FrmRecipes.Designer.cs">
+      <DependentUpon>FrmRecipes.cs</DependentUpon>
     </Compile>
     <Compile Include="FrmUsers.cs">
       <SubType>Form</SubType>
@@ -78,23 +79,27 @@
       <DependentUpon>FrmUsers.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
-    <Compile Include="ProjectDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>ProjectDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FrmRecipes.cs">
+    <Compile Include="FrmRecipesList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FrmRecipes.Designer.cs">
-      <DependentUpon>FrmRecipes.cs</DependentUpon>
+    <Compile Include="FrmRecipesList.Designer.cs">
+      <DependentUpon>FrmRecipesList.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="FrmAddIngredients.resx">
+      <DependentUpon>FrmAddIngredients.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmMain.resx">
       <DependentUpon>FrmMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FrmManageIngredients.resx">
+      <DependentUpon>FrmManageIngredients.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FrmRecipes.resx">
       <DependentUpon>FrmRecipes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FrmRecipesList.resx">
+      <DependentUpon>FrmRecipesList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FrmUsers.resx">
       <DependentUpon>FrmUsers.cs</DependentUpon>
@@ -107,18 +112,9 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
-    <None Include="ProjectDataSet.xsc">
-      <DependentUpon>ProjectDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="ProjectDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>ProjectDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="ProjectDataSet.xss">
-      <DependentUpon>ProjectDataSet.xsd</DependentUpon>
-    </None>
+    <None Include="Properties\DataSources\RecipesSite.Model.Model.User.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -141,6 +137,9 @@
       <Project>{4c9490ae-c038-4ec1-927f-da13215608c2}</Project>
       <Name>RecipesSite.Services</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
