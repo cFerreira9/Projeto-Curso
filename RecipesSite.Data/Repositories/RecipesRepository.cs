@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -112,6 +113,39 @@ namespace RecipesSite.Data.Repositories
             throw new Exception("Não existe nenhuma receita com o ID: " + id);
         }
 
+        public Recipes GetRecipeCardDetails(int id)
+        {
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = conn,
+                    CommandText = "spGetRecipeCardView",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                cmd.Parameters.AddWithValue("Id", id);
+
+                conn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Recipes recipes = new Recipes()
+                    {
+                        Id = (int)dr["Id"],
+                        Picture = (Image)dr["image"],
+                        Classification = (ClassificationEnum)dr["Classification"],
+                        Difficulty = (DifficultyEnum)dr["Difficulty"]
+                    };
+
+                    return recipes;
+                }
+            }
+
+            throw new Exception("Não existe nenhuma receita com o ID: " + id);
+        }
+
         public void Add(Recipes recipe)
         {
             
@@ -169,5 +203,6 @@ namespace RecipesSite.Data.Repositories
                 }
             }
         }
+
     }
 }

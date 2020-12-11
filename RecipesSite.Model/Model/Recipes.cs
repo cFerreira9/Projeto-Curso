@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace RecipesSite.Model.Model
 {
@@ -11,6 +12,8 @@ namespace RecipesSite.Model.Model
         public int Id { get; set; }
 
         public bool IsValid { set; get; }
+
+        public Image Picture { get; set; }
 
         public string Title { set; get; }
 
