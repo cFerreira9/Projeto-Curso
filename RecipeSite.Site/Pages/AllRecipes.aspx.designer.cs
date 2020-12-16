@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RecipeSite.Site.RegisterUsersPages
+namespace RecipeSite.Site
 {
 
 
-    public partial class Logout
+    public partial class AllRecipes
     {
     }
 }

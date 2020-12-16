@@ -1,8 +1,15 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="OwnedRecipes.aspx.cs" Inherits="RecipeSite.Site.Register_Pages.OwnedRecipes" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="AllRecipes.aspx.cs" Inherits="RecipeSite.Site.AllRecipes" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="MainPlaceHolder" runat="server">
-    <h1>Receitas Criadas</h1>
+    <br />
+    <h1>Receitas</h1>
+    <br />
+
+
+
+
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="ScriptPlaceHolder" runat="server">
 </asp:Content>

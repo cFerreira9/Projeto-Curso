@@ -23,5 +23,7 @@ namespace RecipesSite.Model.Model
         public List<Recipes> OwnedRecipes { get; set; }
 
         public List<Recipes> FavouriteRecipes { get; set; }
+
+        public string MemberShipUsername { get; set; }
     }
 }

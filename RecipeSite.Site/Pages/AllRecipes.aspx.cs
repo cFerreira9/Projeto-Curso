@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace RecipeSite.Site
 {
-    public partial class Recipes : System.Web.UI.Page
+    public partial class AllRecipes : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

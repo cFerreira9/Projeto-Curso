@@ -7,11 +7,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RecipeSite.Site
+namespace RecipeSite.Site.Pages
 {
 
 
-    public partial class Recipes
+    public partial class RecipeDetails
     {
     }
 }

@@ -1,7 +1,8 @@
-CREATE PROC	spDeleteRecipe
+CREATE PROC	spGetRecipeCardView
 	@Id int
 AS
 BEGIN
-	DELETE FROM Recipe
+	SELECT Recipe.image, Recipe.Title, Recipe.Classification, Recipe.
+	FROM Recipe
 	WHERE Recipe.Id = @Id
 END

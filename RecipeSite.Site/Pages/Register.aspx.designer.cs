@@ -15,39 +15,30 @@ namespace RecipeSite.Site
     {
 
         /// <summary>
-        /// UsernameTxt control.
+        /// CreateUserWizard1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox UsernameTxt;
+        protected global::System.Web.UI.WebControls.CreateUserWizard CreateUserWizard1;
 
         /// <summary>
-        /// EmailTxt control.
+        /// CreateUserWizardStep1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox EmailTxt;
+        protected global::System.Web.UI.WebControls.CreateUserWizardStep CreateUserWizardStep1;
 
         /// <summary>
-        /// PasswordTxt control.
+        /// CompleteWizardStep1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox PasswordTxt;
-
-        /// <summary>
-        /// CheckPasswordTxt control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox CheckPasswordTxt;
+        protected global::System.Web.UI.WebControls.CompleteWizardStep CompleteWizardStep1;
     }
 }

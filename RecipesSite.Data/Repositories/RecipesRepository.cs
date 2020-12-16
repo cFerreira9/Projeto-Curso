@@ -113,8 +113,10 @@ namespace RecipesSite.Data.Repositories
             throw new Exception("Não existe nenhuma receita com o ID: " + id);
         }
 
-        public Recipes GetRecipeCardDetails(int id)
+        public List<Recipes> GetRecipeCardDetails()
         {
+            List<Recipes> temp = new List<Recipes>();
+
             using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
                 SqlCommand cmd = new SqlCommand
@@ -124,8 +126,6 @@ namespace RecipesSite.Data.Repositories
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.AddWithValue("Id", id);
-
                 conn.Open();
                 SqlDataReader dr = cmd.ExecuteReader();
 
@@ -134,16 +134,18 @@ namespace RecipesSite.Data.Repositories
                     Recipes recipes = new Recipes()
                     {
                         Id = (int)dr["Id"],
-                        Picture = (Image)dr["image"],
+                        //Picture = (Image)dr["image"],
+                        Title = (string)dr["Title"],
+                        Username = (string)dr["Username"],
                         Classification = (ClassificationEnum)dr["Classification"],
                         Difficulty = (DifficultyEnum)dr["Difficulty"]
                     };
 
-                    return recipes;
+                    temp.Add(recipes);
                 }
             }
 
-            throw new Exception("Não existe nenhuma receita com o ID: " + id);
+            return temp;
         }
 
         public void Add(Recipes recipe)

@@ -107,6 +107,7 @@ namespace RecipesSite.Data.Repositories
 
         public void Add(User user)
         {
+
             using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
                 SqlCommand cmd = new SqlCommand
@@ -119,6 +120,7 @@ namespace RecipesSite.Data.Repositories
                 cmd.Parameters.AddWithValue("@Username", user.Username);
                 cmd.Parameters.AddWithValue("@Password", user.Password);
                 cmd.Parameters.AddWithValue("@Email", user.Email);
+                cmd.Parameters.AddWithValue("@MembershipUsername", user.MemberShipUsername);
 
                 SqlParameter outParam = new SqlParameter
                 {

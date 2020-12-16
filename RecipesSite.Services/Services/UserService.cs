@@ -32,8 +32,9 @@ namespace RecipesSite.Services.Services
             return _repo.GetUserByRecipeID(id);
         }
 
-        public void Add(User user)
+        public void Add(User user, string membershipUsername)
         {
+            user.MemberShipUsername = membershipUsername;
             _repo.Add(user);
         }
 

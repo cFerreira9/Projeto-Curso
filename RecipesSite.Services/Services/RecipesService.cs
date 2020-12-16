@@ -47,9 +47,9 @@ namespace RecipesSite.Services.Services
             return recipe;
         }
 
-        public Recipes GetRecipeCardDetails(int id)
+        public List<Recipes> GetRecipeCardDetails()
         {
-            return _repo.GetRecipeCardDetails(id);
+            return _repo.GetRecipeCardDetails();
         }
 
         public void Add(Recipes recipe)
