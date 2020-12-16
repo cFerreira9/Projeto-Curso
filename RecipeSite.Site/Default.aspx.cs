@@ -20,14 +20,14 @@ namespace RecipeSite.Site
 
             RecipesCardContainer.Controls.Add(new LiteralControl()) ;
 
-            for (int i = 1; i <= 3; i++)
-            {
-                var card = FindControl("card" + i);
-                if (card != null)
-                {
-                    card =
-                }
-            }
+            //for (int i = 1; i <= 3; i++)
+            //{
+            //    var card = FindControl("card" + i);
+            //    if (card != null)
+            //    {
+            //        card =
+            //    }
+            //}
         }
 
 

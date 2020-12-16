@@ -52,6 +52,21 @@ namespace RecipesSite.Services.Services
             return _repo.GetRecipeCardDetails();
         }
 
+        public List<Recipes> GetRecipesByCategory(string category)
+        {
+           return _repo.GetRecipesByCategory(category);
+        }
+
+        public List<Recipes> GetAllFavouriteRecipesList(int id)
+        {
+            return _repo.GetAllFavouriteRecipesList(id);
+        }
+
+        public List<Recipes> GetAllOwnedRecipesList(int id)
+        {
+            return _repo.GetAllOwnedRecipesList(id);
+        }
+
         public void Add(Recipes recipe)
         {
             _repo.Add(recipe);

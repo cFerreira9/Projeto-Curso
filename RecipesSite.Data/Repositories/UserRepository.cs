@@ -87,7 +87,7 @@ namespace RecipesSite.Data.Repositories
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.AddWithValue("Id", id);
+                cmd.Parameters.AddWithValue("@Id", id);
 
                 conn.Open();
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -207,7 +207,7 @@ namespace RecipesSite.Data.Repositories
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.AddWithValue("ID", id);
+                cmd.Parameters.AddWithValue("@ID", id);
 
                 conn.Open();
 

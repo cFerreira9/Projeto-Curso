@@ -15,7 +15,7 @@ namespace RecipesSite.Data.Repositories
         {
             List<Category> temp = new List<Category>();
 
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
                 SqlCommand cmd = new SqlCommand
                 {
@@ -43,7 +43,7 @@ namespace RecipesSite.Data.Repositories
 
         public Category GetById(int id)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
                 SqlCommand cmd = new SqlCommand
                 {
@@ -81,7 +81,7 @@ namespace RecipesSite.Data.Repositories
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.AddWithValue("Id", id);
+                cmd.Parameters.AddWithValue("@Id", id);
 
                 conn.Open();
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -102,7 +102,7 @@ namespace RecipesSite.Data.Repositories
 
         public void Add(Category category)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
                 SqlCommand cmd = new SqlCommand
                 {
@@ -135,7 +135,7 @@ namespace RecipesSite.Data.Repositories
 
         public void Update(Category category)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
                 SqlCommand cmd = new SqlCommand()
                 {
@@ -159,7 +159,7 @@ namespace RecipesSite.Data.Repositories
 
         public void Remove(int id)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
                 SqlCommand cmd = new SqlCommand()
                 {
@@ -167,6 +167,8 @@ namespace RecipesSite.Data.Repositories
                     CommandText = "spDeleteCategory",
                     CommandType = CommandType.StoredProcedure
                 };
+
+                cmd.Parameters.AddWithValue("@ID", id);
 
                 conn.Open();
 

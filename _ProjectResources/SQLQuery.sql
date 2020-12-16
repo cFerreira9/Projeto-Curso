@@ -6,17 +6,17 @@ INSERT INTO dbo.Recipe(Title, UserId, Description, Duration, Difficulty, IsValid
 
 INSERT INTO dbo.Ingredients(Name, IsValid) VALUES ('Atum', '1');
 
-INSERT INTO dbo.Recipes_Ingredients(RecipeId, IngredientsId, IngredientQtn) VALUES ('6', '23', '10kg');
+INSERT INTO dbo.Recipes_Ingredients(RecipeId, IngredientsId, IngredientQtn) VALUES ('7', '23', '10kg');
 
-INSERT INTO dbo.Comments(UserId, RecipeId, Text, Date) Values ('1008', '6', 'sdfsdfsdfsdfsdfsd', '1997-08-22');
+INSERT INTO dbo.Comments(UserId, RecipeId, Text, Date) Values ('1', '7', 'sdfsdfsdfsdfsdfsd', '1997-08-22');
 
-INSERT INTO dbo.FavouriteRecipes(UserId, RecipesId) VALUES ('1008', '6');
+INSERT INTO dbo.FavouriteRecipes(UserId, RecipesId) VALUES ('1', '7');
 
 INSERT INTO dbo.Categories(Name) VALUES ('MASSAS');
 
-INSERT INTO dbo.OwnedRecipes(UserId, RecipesId) VALUES ('1008', '6');
+INSERT INTO dbo.OwnedRecipes(UserId, RecipesId) VALUES ('1', '7');
 
-INSERT INTO dbo.Recipe_Categories(RecipeId, CategoriesId) VALUES ('6', '1009');
+INSERT INTO dbo.Recipe_Categories(RecipeId, CategoriesId) VALUES ('7', '1007');
 
 --User
 EXEC spGetAll;

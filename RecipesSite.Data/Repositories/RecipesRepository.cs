@@ -134,7 +134,7 @@ namespace RecipesSite.Data.Repositories
                     Recipes recipes = new Recipes()
                     {
                         Id = (int)dr["Id"],
-                        //Picture = (Image)dr["image"],
+                        Picture = (Image)dr["image"],
                         Title = (string)dr["Title"],
                         Username = (string)dr["Username"],
                         Classification = (ClassificationEnum)dr["Classification"],
@@ -148,14 +148,182 @@ namespace RecipesSite.Data.Repositories
             return temp;
         }
 
+        // Vai buscar as receitas quando se clica no "CARNES"
+
+        public List<Recipes> GetRecipesByCategory(string category)
+        {
+            List<Recipes> temp = new List<Recipes>();
+
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = conn,
+                    CommandText = "spAllRecipesByCategory",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                cmd.Parameters.AddWithValue("Category", category);
+
+                conn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Recipes recipes = new Recipes()
+                    {
+                        Id = (int)dr["Id"],
+                        Picture = (Image)dr["image"],
+                        Title = (string)dr["Title"],
+                        Description = (string)dr["Description"]
+                    };
+
+                    temp.Add(recipes);
+                }
+            }
+
+            return temp;
+        }
+
+        public List<Recipes> GetAllFavouriteRecipesList(int id)
+        {
+            List<Recipes> temp = new List<Recipes>();
+
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = conn,
+                    CommandText = "spFavouriteRecipes",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                cmd.Parameters.AddWithValue("Id", id);
+
+                conn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Recipes recipes = new Recipes
+                    {
+                        Id = (int)dr["Id"],
+                        Picture = (Image)dr["image"],
+                        Title = (string)dr["Title"],
+                        Username = (string)dr["Username"],
+                        Classification = (ClassificationEnum)dr["Classification"],
+                        Difficulty = (DifficultyEnum)dr["Difficulty"]
+                    };
+
+                    temp.Add(recipes);
+                }
+            }
+            return temp;
+        }
+
+        public List<Recipes> GetAllOwnedRecipesList(int id)
+        {
+            List<Recipes> temp = new List<Recipes>();
+
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = conn,
+                    CommandText = "spFavouriteRecipes",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                cmd.Parameters.AddWithValue("Id", id);
+
+                conn.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                while (dr.Read())
+                {
+                    Recipes recipes = new Recipes
+                    {
+                        Id = (int)dr["Id"],
+                        Picture = (Image)dr["image"],
+                        Title = (string)dr["Title"],
+                        Username = (string)dr["Username"],
+                        Classification = (ClassificationEnum)dr["Classification"],
+                        Difficulty = (DifficultyEnum)dr["Difficulty"]
+                    };
+
+                    temp.Add(recipes);
+                }
+            }
+            return temp;
+        }
+
         public void Add(Recipes recipe)
         {
-            
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
+            {
+                SqlCommand cmd = new SqlCommand
+                {
+                    Connection = conn,
+                    CommandText = "spAddRecipe",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                cmd.Parameters.AddWithValue("image", recipe.Picture);
+                cmd.Parameters.AddWithValue("Title", recipe.Title);
+                cmd.Parameters.AddWithValue("UserId", recipe.UserId);
+                cmd.Parameters.AddWithValue("Duration", recipe.Duration);
+                cmd.Parameters.AddWithValue("Classification", recipe.Classification);
+                cmd.Parameters.AddWithValue("Difficulty", recipe.Difficulty);
+                cmd.Parameters.AddWithValue("Description", recipe.Description);
+
+                SqlParameter outParam = new SqlParameter
+                {
+                    ParameterName = "@Id",
+                    SqlDbType = SqlDbType.Int,
+                    Direction = ParameterDirection.Output
+                };
+
+                cmd.Parameters.Add(outParam);
+
+                conn.Open();
+
+                int affectedrow = cmd.ExecuteNonQuery();
+
+                if (affectedrow == 0)
+                {
+                    throw new Exception("Não foi possível criar uma receita.");
+                }
+            }
         }
 
         public void Update(Recipes recipe)
         {
-            
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
+            {
+                SqlCommand cmd = new SqlCommand()
+                {
+                    Connection = conn,
+                    CommandText = "spUpdateRecipe",
+                    CommandType = CommandType.StoredProcedure
+                };
+
+                cmd.Parameters.AddWithValue("Id", recipe.Id);
+                cmd.Parameters.AddWithValue("image", recipe.Picture);
+                cmd.Parameters.AddWithValue("Title", recipe.Title);
+                cmd.Parameters.AddWithValue("Duration", recipe.Duration);
+                cmd.Parameters.AddWithValue("Classification", recipe.Classification);
+                cmd.Parameters.AddWithValue("Difficulty", recipe.Difficulty);
+                cmd.Parameters.AddWithValue("Description", recipe.Description);
+
+                conn.Open();
+
+                int affectedrow = cmd.ExecuteNonQuery();
+
+                if (affectedrow == 0)
+                {
+                    throw new Exception("Não foi possível atualizar a receita.");
+                }
+            }
         }
 
         public void UpdateValidStatus(int id, bool valid)
@@ -193,7 +361,7 @@ namespace RecipesSite.Data.Repositories
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.AddWithValue("Id", id);
+                cmd.Parameters.AddWithValue("@Id", id);
 
                 conn.Open();
 

@@ -14,7 +14,7 @@ namespace RecipesSite.Data.Repositories
     {
         public Comments GetCommentByUserID(int id)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
                 SqlCommand cmd = new SqlCommand
                 {
@@ -44,7 +44,7 @@ namespace RecipesSite.Data.Repositories
 
         public void Add(Comments comments)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
                 SqlCommand cmd = new SqlCommand
                 {
@@ -53,9 +53,9 @@ namespace RecipesSite.Data.Repositories
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.AddWithValue("UserId", comments.UserId);
-                cmd.Parameters.AddWithValue("RecipeId", comments.RecipeId);
-                cmd.Parameters.AddWithValue("Text", comments.Text);
+                cmd.Parameters.AddWithValue("@UserId", comments.UserId);
+                cmd.Parameters.AddWithValue("@RecipeId", comments.RecipeId);
+                cmd.Parameters.AddWithValue("@Text", comments.Text);
 
                 SqlParameter outParam = new SqlParameter
                 {
@@ -79,7 +79,7 @@ namespace RecipesSite.Data.Repositories
 
         public void Update(Comments comments)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
                 SqlCommand cmd = new SqlCommand()
                 {
@@ -104,7 +104,7 @@ namespace RecipesSite.Data.Repositories
 
         public void Remove(int id)
         {
-            using (SqlConnection conn = new SqlConnection())
+            using (SqlConnection conn = new SqlConnection(Properties.Settings.Default.CS))
             {
                 SqlCommand cmd = new SqlCommand()
                 {
@@ -112,6 +112,8 @@ namespace RecipesSite.Data.Repositories
                     CommandText = "spDeleteComment",
                     CommandType = CommandType.StoredProcedure
                 };
+
+                cmd.Parameters.AddWithValue("@ID", id);
 
                 conn.Open();
 

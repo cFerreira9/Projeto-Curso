@@ -188,9 +188,9 @@ namespace RecipesSite.Data.Repositories
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.AddWithValue("ID", ingredients.Id);
+                cmd.Parameters.AddWithValue("@ID", ingredients.Id);
                 cmd.Parameters.AddWithValue("@Name", ingredients.Name);
-                cmd.Parameters.AddWithValue("IsValid", ingredients.IsValid);
+                cmd.Parameters.AddWithValue("@IsValid", ingredients.IsValid);
 
                 conn.Open();
 
@@ -238,7 +238,7 @@ namespace RecipesSite.Data.Repositories
                     CommandType = CommandType.StoredProcedure
                 };
 
-                cmd.Parameters.AddWithValue("ID", id);
+                cmd.Parameters.AddWithValue("@ID", id);
 
                 conn.Open();
 
